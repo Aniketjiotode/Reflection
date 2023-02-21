@@ -8,28 +8,36 @@ namespace _Reflection
 {
     public class MoodAnalyaserFactory
     {
-        public static object CreateMoodAnalyaser(string className, string constructorName, string message)
+        public static object CreateMoodAnalyaser(string className, string MethodName, string message)
         {
             Type type = typeof(MoodAnalyaser);
             if (type.Name.Equals(className) || type.FullName.Equals(className))
             {
-                if (type.Name.Equals(constructorName))
+                MethodInfo invokingMethod = null;
+                foreach (var method in type.GetMethods())
+                {
+                    if (method.Name == MethodName)
+                        invokingMethod = method;
+
+                }
+                if (invokingMethod != null)
                 {
                     ConstructorInfo constor = type.GetConstructor(new[] { typeof(string) });
                     object obj = constor.Invoke(new object[] { message });
-                    return obj;
+                    var s = invokingMethod.Invoke(obj, new string[] { });
+                    return s;
                 }
-
                 else
                 {
-                    throw new CustomException(CustomException.ExceptionType.NO_SUCH_CLASS, "Constructor not Found");
+                    throw new CustomException(CustomException.ExceptionType.NO_SUCH_METHOD, "Method not Found");
                 }
             }
             else
             {
-                throw new CustomException(CustomException.ExceptionType.NO_SUCH_METHOD, "Method not Found");
+                throw new CustomException(CustomException.ExceptionType.NO_SUCH_CLASS, "Class not Found");
             }
         }
+        
 
     }
 }

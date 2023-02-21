@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace _Reflection
 {
@@ -6,8 +8,31 @@ namespace _Reflection
     {
         static void Main(string[] args)
         {
-           object b= MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaserFactory", "MoodAnalyaserFactory","HAPPY");
-            Console.WriteLine(b.GetType().Name);
+        
+           var res= MoodAnalyaserFactory.CreateMoodAnalyaser("MoodAnalyaser", "AnalyseMood", "I am in Happy mood");
+            Console.WriteLine(res);
+
+        }
+        public static void InvokeAMethod(string message,string MethodName)
+        {
+            var type = typeof(MoodAnalyaser);
+            MethodInfo invokingMethod = null;
+            ConstructorInfo constor = type.GetConstructor(new[] { typeof(string) });
+       
+            foreach (var method in type.GetMethods())
+            {
+                if(method.Name==MethodName)
+                    invokingMethod = method;
+                
+            }
+            if (invokingMethod != null)
+            {
+                object obj = constor.Invoke(new object[] { message });
+                var s= invokingMethod.Invoke(obj, new string[] {});
+                Console.WriteLine(s);
+               
+            }
+
         }
     }
 }

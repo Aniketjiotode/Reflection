@@ -22,41 +22,30 @@ namespace TestProject1
         //}
         [Test]
 
-        public void ImproperClassNameShouldThrowCustomException_classnotFoundMeaasage()
-        {
-            string expecxted = "Constructor not Found";
-            try
-            {
-                object expected = new MoodAnalyaser(null);
-                object obj = MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaser", "MoodAnalyaer", "HAPPY");
-            }
-            catch (CustomException e)
-            {
-                Assert.AreEqual(expecxted, e.Message);
-            }
+        public void HappyMessageShouldReturnHappyMood()
+        {     
+            var res = new MoodAnalyaser("HAPPY");
+                string expected = res.AnalyseMood();
+            string obj = MoodAnalyaserFactory.CreateMoodAnalyaser("MoodAnalyaser", "AnalyseMood", "I am in Happy mood").ToString();
+            Assert.AreEqual(expected, obj);
         }
         [Test]
 
-        public void ImproperConstructorShouldThrowCustomException_MehtodnotFoundMeaasage()
+        public void ImproperMethodNameShouldThrowCustomException_MethodnotFoundMeaasage()
         {
             string expecxted = "Method not Found";
             try
             {
                 object expected = new MoodAnalyaser(null);
-                object obj = MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaer", "MoodAnalyaser", "HAPPY");
+                object obj = MoodAnalyaserFactory.CreateMoodAnalyaser("MoodAnalyaser", "AnalyeMood", "I am in Happy mood");
             }
             catch (CustomException e)
             {
                 Assert.AreEqual(expecxted, e.Message);
             }
         }
-        [Test]
-        public void GivenClassNameShouldReturnMoodAnalyaseObjectUsingParameteriseConstructor()
-        {     
-            object expected = new MoodAnalyaser("HAPPY");
-            object obj = MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaser", "MoodAnalyaser","HAPPY");
-            expected.Equals(obj);
-        }
+        
+
 
     }
 }
