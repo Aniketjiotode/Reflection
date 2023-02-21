@@ -6,7 +6,7 @@ namespace _Reflection
     {
         static void Main(string[] args)
         {
-           object b= MoodAnalyaserFactory.CreaateMoodAnalyaser("_Reflection.MoodAnalyaserFactory", "MoodAnalyaserFactory");
+           object b= MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaserFactory", "MoodAnalyaserFactory","HAPPY");
             Console.WriteLine(b.GetType().Name);
         }
     }

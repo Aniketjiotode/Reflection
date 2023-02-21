@@ -12,23 +12,23 @@ namespace TestProject1
         {
         }
 
-        [Test]
-        public void GivenClassNameShouldReturnMoodAnalyaseObject()
-        {
-            string message = null;
-            object expected = new MoodAnalyaser(message);
-            object obj = MoodAnalyaserFactory.CreaateMoodAnalyaser("_Reflection.MoodAnalyaserFactory", "MoodAnalyaserFactory");
-            expected.Equals(obj);
-        }
+        //[Test]
+        //public void GivenClassNameShouldReturnMoodAnalyaseObject()
+        //{
+        //    string message = null;
+        //    object expected = new MoodAnalyaser(message);
+        //    object obj = MoodAnalyaserFactory.CreaateMoodAnalyaser("_Reflection.MoodAnalyaserFactory", "MoodAnalyaserFactory");
+        //    expected.Equals(obj);
+        //}
         [Test]
 
         public void ImproperClassNameShouldThrowCustomException_classnotFoundMeaasage()
         {
-            string expecxted = "class not Found";
+            string expecxted = "Constructor not Found";
             try
             {
                 object expected = new MoodAnalyaser(null);
-                object obj = MoodAnalyaserFactory.CreaateMoodAnalyaser("MoodAnalyaserFactory", "MoodAnalyaserFactory");
+                object obj = MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaser", "MoodAnalyaer", "HAPPY");
             }
             catch (CustomException e)
             {
@@ -43,12 +43,20 @@ namespace TestProject1
             try
             {
                 object expected = new MoodAnalyaser(null);
-                object obj = MoodAnalyaserFactory.CreaateMoodAnalyaser("MoodAnalyaserFactory", "MoodAnalyaserFactory");
+                object obj = MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaer", "MoodAnalyaser", "HAPPY");
             }
             catch (CustomException e)
             {
                 Assert.AreEqual(expecxted, e.Message);
             }
         }
+        [Test]
+        public void GivenClassNameShouldReturnMoodAnalyaseObjectUsingParameteriseConstructor()
+        {     
+            object expected = new MoodAnalyaser("HAPPY");
+            object obj = MoodAnalyaserFactory.CreateMoodAnalyaser("_Reflection.MoodAnalyaser", "MoodAnalyaser","HAPPY");
+            expected.Equals(obj);
+        }
+
     }
 }

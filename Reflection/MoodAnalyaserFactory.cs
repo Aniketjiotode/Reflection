@@ -8,28 +8,26 @@ namespace _Reflection
 {
     public class MoodAnalyaserFactory
     {
-        public static object CreaateMoodAnalyaser(string className,string constructorName)
+        public static object CreateMoodAnalyaser(string className, string constructorName, string message)
         {
-            string pattern = @"."+constructorName+"$";
-            Match reult =Regex.Match(className,pattern);
-
-            if (reult.Success)
+            Type type = typeof(MoodAnalyaser);
+            if (type.Name.Equals(className) || type.FullName.Equals(className))
             {
-                try
+                if (type.Name.Equals(constructorName))
                 {
+                    ConstructorInfo constor = type.GetConstructor(new[] { typeof(string) });
+                    object obj = constor.Invoke(new object[] { message });
+                    return obj;
+                }
 
-                    Assembly assembly = Assembly.GetExecutingAssembly();
-                    Type type= assembly.GetType(className);
-                    return Activator.CreateInstance(type);
-
-                }catch(Exception)
+                else
                 {
-                    throw new CustomException(CustomException.ExceptionType.NULL_MESSAGE,"class not Found");
+                    throw new CustomException(CustomException.ExceptionType.NO_SUCH_CLASS, "Constructor not Found");
                 }
             }
             else
             {
-                throw new CustomException(CustomException.ExceptionType.NO_SUCH_METHOD,"Method not Found");
+                throw new CustomException(CustomException.ExceptionType.NO_SUCH_METHOD, "Method not Found");
             }
         }
 
